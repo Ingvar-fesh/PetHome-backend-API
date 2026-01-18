@@ -1,4 +1,4 @@
-package fr.epita.pethome.datamodel;
+package fr.epita.pethome.datamodel.dto;
 
 import lombok.Data;
 

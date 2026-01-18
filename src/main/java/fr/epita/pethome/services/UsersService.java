@@ -1,6 +1,7 @@
 package fr.epita.pethome.services;
 
 import fr.epita.pethome.datamodel.User;
+import fr.epita.pethome.repositories.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

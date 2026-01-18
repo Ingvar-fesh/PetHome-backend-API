@@ -1,7 +1,7 @@
 package fr.epita.pethome.security;
 
 import fr.epita.pethome.datamodel.User;
-import fr.epita.pethome.services.UsersRepository;
+import fr.epita.pethome.repositories.UsersRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
