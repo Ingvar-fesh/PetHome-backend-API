@@ -1,5 +1,6 @@
 package fr.epita.pethome.datamodel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,6 +17,8 @@ public class User {
 
     private String username;
 
+    @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     private String email;

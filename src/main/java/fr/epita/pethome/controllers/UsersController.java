@@ -1,6 +1,6 @@
 package fr.epita.pethome.controllers;
 
-import fr.epita.pethome.datamodel.LoginRequest;
+import fr.epita.pethome.datamodel.dto.LoginRequest;
 import fr.epita.pethome.datamodel.User;
 import fr.epita.pethome.security.JwtUtil;
 import fr.epita.pethome.services.UsersService;

@@ -1,4 +1,4 @@
-package fr.epita.pethome.services;
+package fr.epita.pethome.repositories;
 
 import fr.epita.pethome.datamodel.User;
 import org.springframework.data.jpa.repository.JpaRepository;
