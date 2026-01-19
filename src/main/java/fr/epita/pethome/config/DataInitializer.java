@@ -1,13 +1,12 @@
 package fr.epita.pethome.config;
 
-import fr.epita.pethome.datamodel.Topic;
-import fr.epita.pethome.datamodel.User;
-import fr.epita.pethome.repositories.TopicsRepository;
-import fr.epita.pethome.repositories.UsersRepository;
+import fr.epita.pethome.datamodel.*;
+import fr.epita.pethome.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,26 +15,100 @@ import java.util.List;
 public class DataInitializer {
 
     @Bean
+    @Transactional
     public CommandLineRunner initDatabase(UsersRepository usersRepository,
                                           TopicsRepository topicsRepository,
+                                          PetTypeRepository petTypeRepository,
+                                          PetRepository petRepository,
+                                          PostsRepository postsRepository,
+                                          CommentsRepository commentsRepository,
                                           PasswordEncoder passwordEncoder) {
         return args -> {
-            if (usersRepository.findByUsername("admin_test").isEmpty()) {
-                User admin = new User();
-                admin.setUsername("admin_test");
-                admin.setPassword(passwordEncoder.encode("securepass"));
-                admin.setEmail("admin@pethome.com");
-                usersRepository.save(admin);
-                System.out.println("Admin user created.");
-            }
-
+            // Create Default Topics
             List<String> defaultTopics = Arrays.asList("Health", "Training", "Nutrition", "General Chat");
-
             for (String topicName : defaultTopics) {
                 if (topicsRepository.findByName(topicName).isEmpty()) {
                     topicsRepository.save(new Topic(topicName));
-                    System.out.println("Topic created: " + topicName);
                 }
+            }
+            Topic healthTopic = topicsRepository.findByName("Health").get();
+            Topic trainingTopic = topicsRepository.findByName("Training").get();
+
+            // Create Pet Types
+            List<String> petTypes = Arrays.asList("Dog", "Cat", "Bird", "Reptile");
+            for (String typeName : petTypes) {
+                if (petTypeRepository.findAll().stream().noneMatch(t -> t.getName().equals(typeName))) {
+                    petTypeRepository.save(new PetType(typeName));
+                }
+            }
+            PetType dogType = petTypeRepository.findAll().stream().filter(t -> t.getName().equals("Dog")).findFirst().get();
+            PetType catType = petTypeRepository.findAll().stream().filter(t -> t.getName().equals("Cat")).findFirst().get();
+
+            // Create Main User (Admin)
+            User admin;
+            if (usersRepository.findByUsername("admin_test").isEmpty()) {
+                admin = new User();
+                admin.setUsername("admin_test");
+                admin.setPassword(passwordEncoder.encode("securepass"));
+                admin.setEmail("admin@pethome.com");
+                admin = usersRepository.save(admin);
+                System.out.println("User 'admin_test' created.");
+            } else {
+                admin = usersRepository.findByUsername("admin_test").get();
+            }
+
+            // Create Secondary User (Commenter)
+            User bob;
+            if (usersRepository.findByUsername("commenter_bob").isEmpty()) {
+                bob = new User();
+                bob.setUsername("commenter_bob");
+                bob.setPassword(passwordEncoder.encode("bobpass"));
+                bob.setEmail("bob@example.com");
+                bob = usersRepository.save(bob);
+                System.out.println("User 'commenter_bob' created.");
+            } else {
+                bob = usersRepository.findByUsername("commenter_bob").get();
+            }
+
+            // Create Pets for Admin
+            if (petRepository.findByOwnerId(admin.getId()).isEmpty()) {
+                petRepository.save(new Pet("Rex", null, admin, dogType));
+                petRepository.save(new Pet("Whiskers", null, admin, catType));
+                System.out.println("Pets created for admin.");
+            }
+
+            // Create Posts for Admin
+            if (postsRepository.findByAuthorId(admin.getId()).isEmpty()) {
+                Post post1 = new Post();
+                post1.setTitle("Best diet for older dogs?");
+                post1.setBody("My dog Rex is turning 10 soon. Any advice on nutrition?");
+                post1.setAuthor(admin);
+                post1.setTopic(healthTopic);
+                postsRepository.save(post1);
+
+                Post post2 = new Post();
+                post2.setTitle("How to stop cat scratching furniture?");
+                post2.setBody("Whiskers is destroying my sofa! Help!");
+                post2.setAuthor(admin);
+                post2.setTopic(trainingTopic);
+                postsRepository.save(post2);
+
+                System.out.println("Posts created for admin.");
+
+                // Create Comments from Bob on Admin's posts
+                Comment c1 = new Comment();
+                c1.setText("Try switching to a senior dog food blend, high in fiber.");
+                c1.setAuthor(bob);
+                c1.setPost(post1);
+                commentsRepository.save(c1);
+
+                Comment c2 = new Comment();
+                c2.setText("Get a scratching post and use catnip spray on it!");
+                c2.setAuthor(bob);
+                c2.setPost(post2);
+                commentsRepository.save(c2);
+
+                System.out.println("Comments created from Bob.");
             }
         };
     }

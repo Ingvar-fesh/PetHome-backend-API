@@ -37,16 +37,21 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // 1. Auth endpoints (Register & Login)
                         .requestMatchers("/api/users/register", "/api/users/auth").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/topics").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/topics", "/api/posts").permitAll()
+
+                        // 2. Public Read Access (GET only)
+                        // Use "/**" to allow reading lists, single items, and sub-resources
+                        .requestMatchers(HttpMethod.GET, "/api/topics/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/pets/**").permitAll()  // <--- ADD THIS for Pets!
+
+                        // 3. Everything else (POST, PUT, DELETE) requires a Token
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT is Stateless (No sessions)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                // Add the filter here!
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

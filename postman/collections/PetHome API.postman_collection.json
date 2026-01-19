@@ -1,460 +1,641 @@
 {
-	"info": {
-		"_postman_id": "pethome-api-collection",
-		"name": "PetHome API",
-		"description": "API collection for PetHome backend - a Spring Boot application for pet-related social features including users, posts, comments, likes, and topics.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"variable": [
-		{
-			"key": "baseUrl",
-			"value": "http://localhost:8080",
-			"type": "string"
-		}
-	],
-	"item": [
-		{
-			"name": "Users",
-			"description": "User management and authentication endpoints",
-			"item": [
-				{
-					"name": "Login",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"\",\n    \"password\": \"\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/users/auth",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "users", "auth"]
-						},
-						"description": "Authenticate user and receive JWT token"
-					}
-				},
-				{
-					"name": "Register User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"\",\n    \"password\": \"\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/users/register",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "users", "register"]
-						},
-						"description": "Register a new user"
-					}
-				},
-				{
-					"name": "Get All Users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/users",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "users"]
-						},
-						"description": "Retrieve all users"
-					}
-				},
-				{
-					"name": "Get User by ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/users/:id",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "users", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Retrieve a specific user by ID"
-					}
-				},
-				{
-					"name": "Update User",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"\",\n    \"password\": \"\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/users/:id",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "users", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Update an existing user"
-					}
-				},
-				{
-					"name": "Delete User",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/users/:id",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "users", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Delete a user by ID"
-					}
-				}
-			]
-		},
-		{
-			"name": "Posts",
-			"description": "Post management endpoints",
-			"item": [
-				{
-					"name": "Create Post",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": "JWT token required"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"title\": \"\",\n    \"content\": \"\",\n    \"topicIds\": []\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/posts",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts"]
-						},
-						"description": "Create a new post (requires authentication)"
-					}
-				},
-				{
-					"name": "Get All Posts",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/posts",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts"]
-						},
-						"description": "Retrieve all posts"
-					}
-				},
-				{
-					"name": "Get Posts by User",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/posts/user/:id",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts", "user", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Retrieve all posts by a specific user"
-					}
-				},
-				{
-					"name": "Update Post",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": "JWT token required"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"title\": \"\",\n    \"content\": \"\",\n    \"topicIds\": []\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/posts/:id",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "Post ID"
-								}
-							]
-						},
-						"description": "Update an existing post (requires authentication, owner only)"
-					}
-				},
-				{
-					"name": "Delete Post",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": "JWT token required"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/posts/:id",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "Post ID"
-								}
-							]
-						},
-						"description": "Delete a post by ID (requires authentication, owner only)"
-					}
-				}
-			]
-		},
-		{
-			"name": "Comments",
-			"description": "Comment management endpoints",
-			"item": [
-				{
-					"name": "Add Comment to Post",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": "JWT token required"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"text\": \"\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/posts/:postId/comments",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts", ":postId", "comments"],
-							"variable": [
-								{
-									"key": "postId",
-									"value": "1",
-									"description": "Post ID"
-								}
-							]
-						},
-						"description": "Add a comment to a specific post (requires authentication)"
-					}
-				},
-				{
-					"name": "Get Comments for Post",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/posts/:postId/comments",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts", ":postId", "comments"],
-							"variable": [
-								{
-									"key": "postId",
-									"value": "1",
-									"description": "Post ID"
-								}
-							]
-						},
-						"description": "Retrieve all comments for a specific post"
-					}
-				},
-				{
-					"name": "Delete Comment",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": "JWT token required"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/comments/:commentId",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "comments", ":commentId"],
-							"variable": [
-								{
-									"key": "commentId",
-									"value": "1",
-									"description": "Comment ID"
-								}
-							]
-						},
-						"description": "Delete a comment by ID (requires authentication, owner only)"
-					}
-				}
-			]
-		},
-		{
-			"name": "Likes",
-			"description": "Like/unlike endpoints for posts and comments",
-			"item": [
-				{
-					"name": "Toggle Post Like",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": "JWT token required"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/posts/:postId/like",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "posts", ":postId", "like"],
-							"variable": [
-								{
-									"key": "postId",
-									"value": "1",
-									"description": "Post ID"
-								}
-							]
-						},
-						"description": "Toggle like on a post (like if not liked, unlike if already liked)"
-					}
-				},
-				{
-					"name": "Toggle Comment Like",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": "JWT token required"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/comments/:commentId/like",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "comments", ":commentId", "like"],
-							"variable": [
-								{
-									"key": "commentId",
-									"value": "1",
-									"description": "Comment ID"
-								}
-							]
-						},
-						"description": "Toggle like on a comment (like if not liked, unlike if already liked)"
-					}
-				}
-			]
-		},
-		{
-			"name": "Topics",
-			"description": "Topic management endpoints",
-			"item": [
-				{
-					"name": "Get All Topics",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/topics",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "topics"]
-						},
-						"description": "Retrieve all topics"
-					}
-				},
-				{
-					"name": "Create Topic",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/topics",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "topics"]
-						},
-						"description": "Create a new topic"
-					}
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "pethome-api-collection",
+    "name": "PetHome API",
+    "description": "API collection for PetHome backend - a Spring Boot application for pet-related social features including users, posts, comments, likes, and topics.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Login",
+          "id": "1397f139-6593-4963-b904-86dec7aa18a7",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"igor@example.com\",\n    \"password\": \"pass123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/auth",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "auth"
+              ]
+            },
+            "description": "Authenticate user and receive JWT token"
+          },
+          "response": []
+        },
+        {
+          "name": "Register User",
+          "id": "5132c765-3b69-4984-8bb6-460bcecd0791",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"Igor\",\n    \"email\": \"igor@example.com\",\n    \"password\": \"pass123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "register"
+              ]
+            },
+            "description": "Register a new user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "id": "2671b44b-48e1-415a-986f-cb00c3421631",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            },
+            "description": "Retrieve all users"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User by ID",
+          "id": "7d7caf6d-3dd2-487a-8724-b601e335f8df",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "User ID"
+                }
+              ]
+            },
+            "description": "Retrieve a specific user by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "id": "084b39d2-b9f8-42a1-a04d-2e9ae19062e7",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"\",\n    \"password\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "User ID"
+                }
+              ]
+            },
+            "description": "Update an existing user"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "id": "73a29b36-0b08-4411-a547-9dc0644bdfd1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "User ID"
+                }
+              ]
+            },
+            "description": "Delete a user by ID"
+          },
+          "response": []
+        }
+      ],
+      "id": "9da9805d-2cd6-4eba-88bd-20b440225a0e",
+      "description": "User management and authentication endpoints"
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Create Post",
+          "id": "af60d762-e75a-46b1-b426-13438c2adaba",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJZ29yIiwiaWF0IjoxNzY4ODI5MzcyLCJleHAiOjE3Njg5MTU3NzJ9.tJ6oq3Bj6zp5DGItAWwZRvFmW8ffXHuaqw19pZymYqI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "JWT token required"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Test post\",\n    \"body\": \"It's my first post!\",\n    \"topicId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/posts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts"
+              ]
+            },
+            "description": "Create a new post (requires authentication)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Posts",
+          "id": "0208bd35-e5b2-493e-ae83-03ab474ad056",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/posts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts"
+              ]
+            },
+            "description": "Retrieve all posts"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Posts by User",
+          "id": "7b4b4499-931e-4569-83ea-fe7aa449f02a",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/posts/user/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "User ID"
+                }
+              ]
+            },
+            "description": "Retrieve all posts by a specific user"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post",
+          "id": "26296ed2-bbb1-4a5c-a6a6-ba9a6c27e8a4",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "JWT token required"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"\",\n    \"content\": \"\",\n    \"topicIds\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/posts/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Post ID"
+                }
+              ]
+            },
+            "description": "Update an existing post (requires authentication, owner only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "id": "998c98e5-6b0a-464e-8bf9-8e4ba04be633",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "JWT token required"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/posts/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Post ID"
+                }
+              ]
+            },
+            "description": "Delete a post by ID (requires authentication, owner only)"
+          },
+          "response": []
+        }
+      ],
+      "id": "633c62d7-3781-4554-989c-2cc5f1bd1c14",
+      "description": "Post management endpoints"
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Add Comment to Post",
+          "id": "bb543881-bcea-41fa-8c8c-279c89beba6e",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "JWT token required"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"text\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/posts/:postId/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                ":postId",
+                "comments"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "1",
+                  "description": "Post ID"
+                }
+              ]
+            },
+            "description": "Add a comment to a specific post (requires authentication)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Comments for Post",
+          "id": "75d4dfff-ebcb-4c67-b40b-f0d491a1fda2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/posts/:postId/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                ":postId",
+                "comments"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "1",
+                  "description": "Post ID"
+                }
+              ]
+            },
+            "description": "Retrieve all comments for a specific post"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "id": "2a6b70d7-37f0-4000-b02e-ce3e56d1df10",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "JWT token required"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comments/:commentId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comments",
+                ":commentId"
+              ],
+              "variable": [
+                {
+                  "key": "commentId",
+                  "value": "1",
+                  "description": "Comment ID"
+                }
+              ]
+            },
+            "description": "Delete a comment by ID (requires authentication, owner only)"
+          },
+          "response": []
+        }
+      ],
+      "id": "150a5dd1-32b0-4b8a-ac59-e343767620ae",
+      "description": "Comment management endpoints"
+    },
+    {
+      "name": "Likes",
+      "item": [
+        {
+          "name": "Toggle Post Like",
+          "id": "9f635ffd-9ab6-4537-b598-83b73b4e8ad1",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJZ29yIiwiaWF0IjoxNzY4ODI5MzcyLCJleHAiOjE3Njg5MTU3NzJ9.tJ6oq3Bj6zp5DGItAWwZRvFmW8ffXHuaqw19pZymYqI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "JWT token required"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/posts/5/like",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                "5",
+                "like"
+              ]
+            },
+            "description": "Toggle like on a post (like if not liked, unlike if already liked)"
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Comment Like",
+          "id": "632d4c31-6018-414c-8617-dbe8de47e954",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "JWT token required"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comments/:commentId/like",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comments",
+                ":commentId",
+                "like"
+              ],
+              "variable": [
+                {
+                  "key": "commentId",
+                  "value": "1",
+                  "description": "Comment ID"
+                }
+              ]
+            },
+            "description": "Toggle like on a comment (like if not liked, unlike if already liked)"
+          },
+          "response": []
+        }
+      ],
+      "id": "e5576f7b-837d-4c36-9dff-eb42e9541f27",
+      "description": "Like/unlike endpoints for posts and comments"
+    },
+    {
+      "name": "Topics",
+      "item": [
+        {
+          "name": "Get All Topics",
+          "id": "3e932234-0bec-4be7-a0e7-5bf336fcf42b",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "topics"
+              ]
+            },
+            "description": "Retrieve all topics"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Topic",
+          "id": "4f201f83-441f-4fea-896f-ba0d18dd486b",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/topics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "topics"
+              ]
+            },
+            "description": "Create a new topic"
+          },
+          "response": []
+        }
+      ],
+      "id": "8f540d3b-7b36-45be-9cfd-f0e1f41c4989",
+      "description": "Topic management endpoints"
+    },
+    {
+      "name": "Pets",
+      "item": [
+        {
+          "name": "Get all pets from owner id",
+          "id": "611151a8-69d9-429e-badb-5eab9f95c232",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "cea9c34f-78cb-4d7a-a868-57fb25034010"
+    }
+  ],
+  "variable": [
+    {
+      "id": "2c2c7010-ffe0-4c80-8ea7-941a0458336f",
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
 }
