@@ -1,5 +1,6 @@
 package fr.epita.pethome.security;
 
+import fr.epita.pethome.services.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwt = null;
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7); // Remove "Bearer " prefix
+            jwt = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
 

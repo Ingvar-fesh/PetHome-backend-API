@@ -4,25 +4,31 @@ import fr.epita.pethome.datamodel.Post;
 import fr.epita.pethome.datamodel.Topic;
 import fr.epita.pethome.datamodel.User;
 import fr.epita.pethome.datamodel.dto.PostRequest;
+import fr.epita.pethome.datamodel.dto.PostResponseDTO;
+import fr.epita.pethome.repositories.PostLikeRepository;
 import fr.epita.pethome.repositories.PostsRepository;
 import fr.epita.pethome.repositories.TopicsRepository;
 import fr.epita.pethome.repositories.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
     private final TopicsRepository topicsRepository;
     private final UsersRepository usersRepository;
+    private final PostLikeRepository postLikeRepository;
 
     public PostsService(PostsRepository postsRepository,
                         TopicsRepository topicsRepository,
-                        UsersRepository usersRepository) {
+                        UsersRepository usersRepository,
+                        PostLikeRepository postLikeRepository) {
         this.postsRepository = postsRepository;
         this.topicsRepository = topicsRepository;
         this.usersRepository = usersRepository;
+        this.postLikeRepository = postLikeRepository;
     }
 
     public Post createPost(PostRequest request, String username) {
@@ -42,12 +48,30 @@ public class PostsService {
         return postsRepository.save(post);
     }
 
-    public List<Post> getPostsByAuthorId(Integer usernameId) {
-        return postsRepository.findByAuthorId(usernameId);
+    public List<PostResponseDTO> getPostsByAuthorId(Integer usernameId) {
+        return postsRepository.findByAuthorId(usernameId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<Post> getAllPosts() {
-        return postsRepository.findAll();
+    public List<PostResponseDTO> getAllPosts() {
+        return postsRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private PostResponseDTO convertToDTO(Post post) {
+        long likesCount = postLikeRepository.countByPostId(post.getId());
+        return new PostResponseDTO(
+                post.getId(),
+                post.getTitle(),
+                post.getBody(),
+                post.getImageUrl(),
+                post.getTopic().getName(),
+                post.getAuthor().getUsername(),
+                post.getCreatedAt(),
+                likesCount
+        );
     }
 
 

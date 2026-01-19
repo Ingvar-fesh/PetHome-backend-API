@@ -2,6 +2,7 @@ package fr.epita.pethome.controllers;
 
 import fr.epita.pethome.datamodel.Post;
 import fr.epita.pethome.datamodel.dto.PostRequest;
+import fr.epita.pethome.datamodel.dto.PostResponseDTO;
 import fr.epita.pethome.services.PostsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +20,18 @@ public class PostsController {
         this.postsService = postsService;
     }
 
-    // CREATE Post (Protected)
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody PostRequest request, Principal principal) {
         return ResponseEntity.ok(postsService.createPost(request, principal.getName()));
     }
 
     @GetMapping
-    public List<Post> getAllPosts() {
+    public List<PostResponseDTO> getAllPosts() {
         return postsService.getAllPosts();
     }
 
     @GetMapping("/user/{id}")
-    public List<Post> getPostsByUser(@PathVariable("id") Integer usernameId) {
+    public List<PostResponseDTO> getPostsByUser(@PathVariable("id") Integer usernameId) {
         return postsService.getPostsByAuthorId(usernameId);
     }
 
