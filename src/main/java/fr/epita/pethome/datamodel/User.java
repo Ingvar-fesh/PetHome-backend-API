@@ -1,6 +1,7 @@
 package fr.epita.pethome.datamodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,17 +11,18 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 @Data
 public class User {
-
-    @Id // <--- Every entity MUST have an ID
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Column(nullable = false)
     private String email;
 
     @CreationTimestamp
