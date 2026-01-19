@@ -28,20 +28,30 @@ public class UsersController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/auth")
-    public String login(@RequestBody LoginRequest loginRequest) throws Exception {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
+    // ... imports
 
-        if (authentication.isAuthenticated()) {
-            return jwtUtil.generateToken(loginRequest.getUsername());
-        } else {
-            throw new RuntimeException("Invalid Access");
+    @PostMapping("/auth")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
+        try {
+            // 1. Authenticate using EMAIL and Password
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
+
+            if (authentication.isAuthenticated()) {
+                String username = authentication.getName();
+                String token = jwtUtil.generateToken(username);
+
+                return ResponseEntity.ok(java.util.Collections.singletonMap("token", token));
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid Email or Password");
         }
+        return ResponseEntity.status(401).build();
     }
 
     @PostMapping("/register")
