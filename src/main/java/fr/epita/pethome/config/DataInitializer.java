@@ -22,8 +22,52 @@ public class DataInitializer {
                                           PetRepository petRepository,
                                           PostsRepository postsRepository,
                                           CommentsRepository commentsRepository,
+                                          PlaceRepository placeRepository,
+                                          PlaceTypeRepository placeTypeRepository,
                                           PasswordEncoder passwordEncoder) {
         return args -> {
+
+            if (placeTypeRepository.count() == 0) {
+                // Using generic Google Map marker icons for testing
+                placeTypeRepository.save(new PlaceType("VET"));
+                placeTypeRepository.save(new PlaceType("PARK"));
+                placeTypeRepository.save(new PlaceType("SHOP"));
+                System.out.println("Place Types created.");
+            }
+
+            PlaceType vetType = placeTypeRepository.findAll().
+                    stream().filter(t -> t.getName().equals("VET")).findFirst().get();
+            PlaceType parkType = placeTypeRepository.findAll().
+                    stream().filter(t -> t.getName().equals("PARK")).findFirst().get();
+            PlaceType shopType = placeTypeRepository.findAll().
+                    stream().filter(t -> t.getName().equals("SHOP")).findFirst().get();
+
+            if (placeRepository.count() == 0) {
+                // Place 1: A Vet in Paris (Near Eiffel Tower)
+                Location loc1 = new Location(48.8584, 2.2945);
+                Place p1 = new Place("Paris Vet Clinic", "5 Avenue Anatole France, Paris", vetType, loc1);
+                p1.setDescription("24/7 Emergency Vet Services");
+                p1.setValidated(true); // Important: Must be true to show on map
+                placeRepository.save(p1);
+
+                // Place 2: A Park (Tuileries Garden)
+                Location loc2 = new Location(48.8635, 2.3275);
+                Place p2 = new Place("Jardin des Tuileries", "Place de la Concorde, Paris", parkType, loc2);
+                p2.setDescription("Great park for walking dogs on leash.");
+                p2.setValidated(true);
+                placeRepository.save(p2);
+
+                // Place 3: A Pet Shop (Le Marais)
+                Location loc3 = new Location(48.8570, 2.3522);
+                Place p3 = new Place("Le Marais Pet Shop", "Rue de Rivoli, Paris", shopType, loc3);
+                p3.setDescription("Premium food and toys.");
+                p3.setValidated(true);
+                placeRepository.save(p3);
+
+                System.out.println("Sample Places created in Paris.");
+            }
+
+
             // Create Default Topics
             List<String> defaultTopics = Arrays.asList("Health", "Training", "Nutrition", "General Chat");
             for (String topicName : defaultTopics) {

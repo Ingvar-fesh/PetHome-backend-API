@@ -44,7 +44,8 @@ public class SecurityConfig {
                         // Use "/**" to allow reading lists, single items, and sub-resources
                         .requestMatchers(HttpMethod.GET, "/api/topics/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/pets/**").permitAll()  // <--- ADD THIS for Pets!
+                        .requestMatchers(HttpMethod.GET, "/api/pets/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/places/**").permitAll()
 
                         // 3. Everything else (POST, PUT, DELETE) requires a Token
                         .anyRequest().authenticated()
