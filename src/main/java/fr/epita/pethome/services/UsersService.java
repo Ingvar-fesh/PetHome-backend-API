@@ -34,11 +34,17 @@ public class UsersService {
 
     public User updateUser(Integer id, User userDetails) {
         return usersRepository.findById(id).map(user -> {
-            user.setUsername(userDetails.getUsername());
-            user.setEmail(userDetails.getEmail());
-            if(userDetails.getPassword() != null) {
-                user.setPassword(userDetails.getPassword());
+            if (userDetails.getUsername() != null) user.setUsername(userDetails.getUsername());
+            if (userDetails.getEmail() != null) user.setEmail(userDetails.getEmail());
+
+            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
             }
+
+            if (userDetails.getProfileImageUrl() != null) {
+                user.setProfileImageUrl(userDetails.getProfileImageUrl());
+            }
+
             return usersRepository.save(user);
         }).orElseThrow(() -> new RuntimeException("User not found with id " + id));
     }

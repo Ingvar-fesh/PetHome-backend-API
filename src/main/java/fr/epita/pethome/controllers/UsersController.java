@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -28,12 +29,10 @@ public class UsersController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ... imports
 
     @PostMapping("/auth")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
         try {
-            // 1. Authenticate using EMAIL and Password
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(),
@@ -72,9 +71,12 @@ public class UsersController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User userDetails) {
+    public ResponseEntity<?> updateUser(@PathVariable("id") Integer id,
+                                        @RequestBody User userDetails,
+                                        Principal principal) {
         try {
-            return ResponseEntity.ok(usersService.updateUser(id, userDetails));
+            User updatedUser = usersService.updateUser(id, userDetails);
+            return ResponseEntity.ok(updatedUser);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

@@ -628,6 +628,101 @@
         }
       ],
       "id": "cea9c34f-78cb-4d7a-a868-57fb25034010"
+    },
+    {
+      "name": "Locations",
+      "item": [
+        {
+          "name": "Get all places",
+          "id": "52078f29-06a1-48e8-90a6-1943c50a857d",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all places by type",
+          "id": "bff664c5-5ffa-4c1c-8f52-3fae8adf5f22",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all places by distance",
+          "id": "cc94fd4a-9e7a-4a0f-b284-045a92e609da",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update a Place",
+          "id": "b24d9cc0-439a-45e1-a27c-fae4e907b941",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\": \"Updated description: Now open on Sundays!\",\n    \"typeId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/places/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "places",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a place",
+          "id": "ee9b9359-0577-48b1-b892-2ee47fc5269b",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/places/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "places",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "9c8439e4-8efb-47bd-8b60-31fa10c08358"
     }
   ],
   "variable": [

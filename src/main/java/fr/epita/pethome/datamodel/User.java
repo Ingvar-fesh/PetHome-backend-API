@@ -1,6 +1,5 @@
 package fr.epita.pethome.datamodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,6 +20,9 @@ public class User {
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 
     @Column(nullable = false)
     private String email;
